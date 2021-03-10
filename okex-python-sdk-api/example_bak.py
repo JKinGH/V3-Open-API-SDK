@@ -9,35 +9,6 @@ import okex.system_api as system
 import okex.information_api as information
 import json
 import datetime
-import time as time_sleep
-# smtplib 用于邮件的发信动作
-import smtplib
-from email.mime.text import MIMEText
-# email 用于构建邮件内容
-from email.header import Header
-# 用于构建邮件头
-
-from web3 import Web3
-from web3.middleware import geth_poa_middleware
-
-import json,logging,sys,time,os,datetime
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
-from contract import abi
-
-from config import deploy_config as config
-from common.log.logger import gather_logger
-
-formatter = logging.Formatter('%(asctime)s %(filename)s[%(funcName)s][line:%(lineno)d] %(levelname)s %(message)s')
-handler1 = logging.FileHandler("get.log")
-handler1.setFormatter(formatter)
-gather_logger.addHandler(handler1)
-
-
-web3 = Web3(Web3.HTTPProvider(config.web3_url))
-web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-contract_address = web3.toChecksumAddress(config.usdt_contract_address)
-contract_instance = web3.eth.contract(address=contract_address, abi=abi)
 
 def get_timestamp():
     now = datetime.datetime.now()
@@ -46,28 +17,11 @@ def get_timestamp():
 
 time = get_timestamp()
 
-## 输入用户冷钱包地址 和 erc20代币地址
-def call_erc20_balance(addr, erc20_addr):
-    ERC20_ABI = json.loads(
-        '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}]')
-    erc20 = web3.eth.contract(address=web3.toChecksumAddress(erc20_addr), abi=ERC20_ABI)
-    # print(erc20.functions.name().call())
-    # print(erc20.functions.symbol().call())
-    # print(erc20.functions.decimals().call())
-    # print(erc20.functions.totalSupply().call())
-    # print(erc20.functions.balanceOf('0xD1220A0cf47c7B9Be7A2E6BA89F429762e7b9aDb').call())
-    return erc20.functions.balanceOf(web3.toChecksumAddress(addr)).call()
-
 if __name__ == '__main__':
 
-    # apikey = "7f05eee4-f6de-4b6d-800f-cea4da2f36ce"
-    # secretkey = "80889D4C92CECA8D4BB22123D36F27C5"
-    # IP = "0"
-    # 备注名 = "read"
-    # 权限 = "只读"
-    api_key = "7f05eee4-f6de-4b6d-800f-cea4da2f36ce"
-    secret_key = "80889D4C92CECA8D4BB22123D36F27C5"
-    passphrase = "NLXQBnlxqb2727"
+    api_key = ""
+    secret_key = ""
+    passphrase = ""
 
     # param use_server_time's value is False if is True will use server timestamp
     # param test's value is False if is True will use simulative trading
@@ -76,9 +30,9 @@ if __name__ == '__main__':
 # 资金账户API
     accountAPI = account.AccountAPI(api_key, secret_key, passphrase, False)
     # 资金账户信息
-    #result = accountAPI.get_wallet()
+    # result = accountAPI.get_wallet()
     # 单一币种账户信息
-    # result = accountAPI.get_currency('WGRT')
+    # result = accountAPI.get_currency('')
     # 资金划转
     # result = accountAPI.coin_transfer(currency='', amount='', account_from='', account_to='', type='', sub_account='', instrument_id='', to_instrument_id='')
     # 提币
@@ -470,55 +424,4 @@ if __name__ == '__main__':
     # result = system.get_system_status('')
 
 
-    #print(time + json.dumps(result))
-
-    #flag = False
-
-    # 用于构建邮件头
-    # 发信方的信息：发信邮箱，QQ 邮箱授权码
-    from_addr = '327413510@qq.com'
-    password = 'ridwewrjcdyibhed'
-    # 收信方邮箱
-    # to_addr = ['327413510@qq.com','wujinquandaxin8@163.com','cyl9007@qq.com']
-    to_addr = ['327413510@qq.com']
-    # 发信服务器
-    smtp_server = 'smtp.qq.com'
-
-    # 开启发信服务，这里使用的是加密传输
-    server = smtplib.SMTP_SSL(host=smtp_server)
-    server.connect(host=smtp_server, port=465)
-    # 登录发信邮箱
-    server.login(from_addr, password)
-    while True:
-
-        pairs_eth_balance = call_erc20_balance(config.pairs['eth_veth'],config.erc20_toekn_addr['weth'])
-        pairs_veth_balance = call_erc20_balance(config.pairs['eth_veth'],config.erc20_toekn_addr['veth'])
-
-        veth_price = pairs_eth_balance / pairs_veth_balance
-
-        gather_logger.info("veth_price={} ETH".format(veth_price))
-
-        if (veth_price >= 1) or (veth_price < 0.7):
-        #if veth_price < 1:
-            gather_logger.info("send msg.")
-            #print("{} in OKex can_deposit:{},can_withdraw:{}".format(curreny['currency'],curreny['can_deposit'],curreny['can_withdraw']))
-
-            # msg = "{} in OKex can_deposit:{},can_withdraw:{}".format(curreny['currency'],curreny['can_deposit'],curreny['can_withdraw'])
-            msg = "veth_price == {} ETH".format(veth_price)
-            # 邮箱正文内容，第一个参数为内容，第二个参数为格式(plain 为纯文本)，第三个参数为编码
-            msg = MIMEText(msg, 'plain', 'utf-8')
-            # 邮件头信息
-            msg['From'] = Header(from_addr)
-            msg['To'] = Header('withdraw')
-            msg['Subject'] = Header('veth 可以买/卖了!!!')
-
-            # 发送邮件
-            server.sendmail(from_addr, to_addr, msg.as_string())
-            server.sendmail(from_addr, to_addr, msg.as_string())
-            server.sendmail(from_addr, to_addr, msg.as_string())
-
-
-        time_sleep.sleep(1*60)
-
-    # 关闭服务器
-    server.quit()
+    print(time + json.dumps(result))
