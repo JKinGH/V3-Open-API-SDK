@@ -474,21 +474,7 @@ if __name__ == '__main__':
 
     #flag = False
 
-    # 用于构建邮件头
-    # 发信方的信息：发信邮箱，QQ 邮箱授权码
-    from_addr = '327413510@qq.com'
-    password = 'ridwewrjcdyibhed'
-    # 收信方邮箱
-    # to_addr = ['327413510@qq.com','wujinquandaxin8@163.com','cyl9007@qq.com']
-    to_addr = ['327413510@qq.com']
-    # 发信服务器
-    smtp_server = 'smtp.qq.com'
 
-    # 开启发信服务，这里使用的是加密传输
-    server = smtplib.SMTP_SSL(host=smtp_server)
-    server.connect(host=smtp_server, port=465)
-    # 登录发信邮箱
-    server.login(from_addr, password)
     while True:
 
         pairs_eth_balance = call_erc20_balance(config.pairs['eth_veth'],config.erc20_toekn_addr['weth'])
@@ -498,12 +484,27 @@ if __name__ == '__main__':
 
         gather_logger.info("veth_price={} ETH".format(veth_price))
 
-        if (veth_price >= 1) or (veth_price < 0.7):
-        #if veth_price < 1:
+        #if (veth_price >= 1) or (veth_price < 0.7):
+        if veth_price < 1:
             gather_logger.info("send msg.")
             #print("{} in OKex can_deposit:{},can_withdraw:{}".format(curreny['currency'],curreny['can_deposit'],curreny['can_withdraw']))
 
             # msg = "{} in OKex can_deposit:{},can_withdraw:{}".format(curreny['currency'],curreny['can_deposit'],curreny['can_withdraw'])
+            # 用于构建邮件头
+            # 发信方的信息：发信邮箱，QQ 邮箱授权码
+            from_addr = '327413510@qq.com'
+            password = 'ridwewrjcdyibhed'
+            # 收信方邮箱
+            # to_addr = ['327413510@qq.com','wujinquandaxin8@163.com','cyl9007@qq.com']
+            to_addr = ['327413510@qq.com']
+            # 发信服务器
+            smtp_server = 'smtp.qq.com'
+
+            # 开启发信服务，这里使用的是加密传输
+            server = smtplib.SMTP_SSL(host=smtp_server)
+            server.connect(host=smtp_server, port=465)
+            # 登录发信邮箱
+            server.login(from_addr, password)
             msg = "veth_price == {} ETH".format(veth_price)
             # 邮箱正文内容，第一个参数为内容，第二个参数为格式(plain 为纯文本)，第三个参数为编码
             msg = MIMEText(msg, 'plain', 'utf-8')
