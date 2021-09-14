@@ -490,6 +490,7 @@ if __name__ == '__main__':
             ProposeGasPrice = result['ProposeGasPrice']
             FastGasPrice = result['FastGasPrice']
             suggestBaseFee = result['suggestBaseFee']
+            gather_logger.info('SafeGasPrice={},ProposeGasPrice={},FastGasPrice={}'.format(SafeGasPrice,ProposeGasPrice,FastGasPrice))
 
             if int(SafeGasPrice) < 30 :
                 ToSend = 1
