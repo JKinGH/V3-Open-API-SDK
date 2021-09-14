@@ -17,8 +17,6 @@ from email.mime.text import MIMEText
 from email.header import Header
 # 用于构建邮件头
 
-from web3 import Web3
-from web3.middleware import geth_poa_middleware
 
 import json,logging,sys,time,os,datetime
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,10 +33,6 @@ handler1.setFormatter(formatter)
 gather_logger.addHandler(handler1)
 
 
-web3 = Web3(Web3.HTTPProvider(config.web3_url))
-web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-contract_address = web3.toChecksumAddress(config.usdt_contract_address)
-contract_instance = web3.eth.contract(address=contract_address, abi=abi)
 
 def get_timestamp():
     now = datetime.datetime.now()
@@ -47,17 +41,6 @@ def get_timestamp():
 
 time = get_timestamp()
 
-## 输入用户冷钱包地址 和 erc20代币地址
-def call_erc20_balance(addr, erc20_addr):
-    ERC20_ABI = json.loads(
-        '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}]')
-    erc20 = web3.eth.contract(address=web3.toChecksumAddress(erc20_addr), abi=ERC20_ABI)
-    # print(erc20.functions.name().call())
-    # print(erc20.functions.symbol().call())
-    # print(erc20.functions.decimals().call())
-    # print(erc20.functions.totalSupply().call())
-    # print(erc20.functions.balanceOf('0xD1220A0cf47c7B9Be7A2E6BA89F429762e7b9aDb').call())
-    return erc20.functions.balanceOf(web3.toChecksumAddress(addr)).call()
 
 if __name__ == '__main__':
 
