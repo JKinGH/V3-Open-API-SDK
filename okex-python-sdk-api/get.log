@@ -6,3 +6,14 @@
 2021-03-10 14:03:19,068 example.py[<module>][line:499] INFO veth_price=0.8397947489845331 ETH
 2021-03-10 14:03:45,045 example.py[<module>][line:499] INFO veth_price=0.8397947489845331 ETH
 2021-03-10 14:04:51,647 example.py[<module>][line:499] INFO veth_price=0.8397947489845331 ETH
+2021-09-14 10:17:18,498 example.py[<module>][line:485] INFO veth_price=0.719171678206496 ETH
+2021-09-14 10:17:18,505 example.py[<module>][line:489] INFO send msg.
+2021-09-14 10:18:24,650 example.py[<module>][line:485] INFO veth_price=0.719171678206496 ETH
+2021-09-14 10:18:24,650 example.py[<module>][line:489] INFO send msg.
+2021-09-14 11:00:43,192 example_gas.py[<module>][line:508] INFO send msg.
+2021-09-14 11:01:08,402 example_gas.py[<module>][line:508] INFO send msg.
+2021-09-14 11:01:40,018 example_gas.py[<module>][line:508] INFO send msg.
+2021-09-14 11:05:56,514 example_gas.py[<module>][line:513] INFO send msg:SafeGasPrice=65,ProposeGasPrice=66,FastGasPrice=67
+2021-09-14 11:08:24,629 example_gas.py[<module>][line:480] INFO Start to query Gas!
+2021-09-14 11:08:25,648 example_gas.py[<module>][line:480] INFO Start to query Gas!
+2021-09-14 11:08:37,781 example_gas.py[<module>][line:478] INFO Start to query Gas!
