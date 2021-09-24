@@ -515,11 +515,10 @@ if __name__ == '__main__':
 
             # 发送邮件
             server.sendmail(from_addr, to_addr, msg.as_string())
-            server.sendmail(from_addr, to_addr, msg.as_string())
-            server.sendmail(from_addr, to_addr, msg.as_string())
 
 
-        time_sleep.sleep(1*60)
+
+        time_sleep.sleep(24*60*60)
 
     # 关闭服务器
     server.quit()

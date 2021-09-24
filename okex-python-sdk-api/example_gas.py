@@ -459,11 +459,20 @@ if __name__ == '__main__':
     #flag = False
 
     gather_logger.info("Start to query Gas!")
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
+        "Connection": "keep-alive",
+        "Host": "36kr.com/newsflashes",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:55.0) Gecko/20100101 Firefox/55.0"
+    }
     while True:
 
         YourApiKeyToken = '8M3HGW2884XAGTNTR41QWDNAFJ9Q48GEK7'
         url = 'https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey={}'.format(YourApiKeyToken)
-        data = requests.get(url).json()
+        data = requests.get(url, headers=headers).json()
         ToSend = 0
 
         if data.get('status') == '1':
